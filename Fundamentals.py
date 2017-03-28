@@ -14,7 +14,7 @@ In this example I'm grabbing Price-to-Book (mrq) ratio
 
 class GetFIN:
     @staticmethod
-    def get_price2book(self, sym):
+    def get_price2book(self):
             try:
                 url = r'http://finviz.com/quote.ashx?t='+format(sym.lower())
                 html = u.urlopen(url).read()
@@ -25,7 +25,7 @@ class GetFIN:
                 print('{} price to book = {}'.format(sym, pb_))
                 return pb_
             except Exception as e:
-                print(e)
+                print("Error in get_price2book:",e)
 
 """
 Construct a pandas series whose index is the list/array
@@ -39,3 +39,4 @@ p2b_series = pd.Series(index=stock_list)
 CClas = GetFIN()
 for sym in stock_list:
     p2b_series[sym] = CClas.get_price2book(sym)
+
