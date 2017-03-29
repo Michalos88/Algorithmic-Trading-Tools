@@ -26,7 +26,6 @@ Shortable	Yes	LT Debt/Eq	0.56	Earnings	May 02 AMC	Payout	26.60%	Avg Volume	27.15
 
 list1 = listt.split("\t" or "\n")
 
-print(list1)
 
 list2 = []
 
@@ -61,35 +60,65 @@ for i in range(0, len(list1)):
 list2.remove('Yes')
 list2.remove('Yes')
 
-print(list2)
 
 
-#
-# class GetFIN:
-#     @staticmethod
-#     def get_price2book(self):
-#             try:
-#                 url = r'http://finviz.com/quote.ashx?t='+format(sym.lower())
-#                 html = u.urlopen(url).read()
-#                 soup = bs(html, 'lxml')
-#                 # Change the text below to get a diff metric
-#                 pb = soup.find(text = r'P/B')
-#                 pb_ = pb.find_next(class_='snapshot-td2').text
-#                 print('{} price to book = {}'.format(sym, pb_))
-#                 return pb_
-#             except Exception as e:
-#                 print("Error in get_price2book:",e)
-#
-# """
-# Construct a pandas series whose index is the list/array
-# of stock symbols of interest.
-#
-# Run a loop assigning the function output to the series
-# """
-# stock_list = ['XOM','AMZN','AAPL','SWKS']
-# p2b_series = pd.Series(index=stock_list)
-#
-# CClas = GetFIN()
-# for sym in stock_list:
-#     p2b_series[sym] = CClas.get_price2book(sym)
-#
+
+class GetFIN:
+    @staticmethod
+    def get_price2book(self):
+            try:
+                url = r'http://finviz.com/quote.ashx?t='+format(sym.lower())
+                html = u.urlopen(url).read()
+                soup = bs(html, 'lxml')
+                # Change the text below to get a diff metric
+                pb = soup.find(text = r'P/B')
+                pb_ = pb.find_next(class_='snapshot-td2').text
+                print('{} price to book = {}'.format(sym, pb_))
+                return pb_
+            except Exception as e:
+                print("Error in get_price2book:",e)
+
+    def geto(self,tick,data):
+        try:
+            self.tick = tick
+            self.data = data
+            url = r'http://finviz.com/quote.ashx?t=' + format(tick.lower())
+            html = u.urlopen(url).read()
+            soup = bs(html, 'lxml')
+            # Change the text below to get a diff metric
+            pb = soup.find(text=data)
+            pb_ = pb.find_next(class_='snapshot-td2').text
+            print(data+" of "+tick+" = "+pb_ )
+            return pb_
+        except Exception as e:
+            print("Error in getting finc:", e)
+
+"""
+Construct a pandas series whose index is the list/array
+of stock symbols of interest.
+
+Run a loop assigning the function output to the series
+"""
+stock_list = ['XOM','AMZN','AAPL','SWKS']
+
+
+CClas = GetFIN()
+
+verbs = ["find","search","get"]
+pronouns = ["of","to"]
+
+print("How can I help?")
+userinput=input()
+splited = userinput.split(" ")
+fund = ""
+ticker = ""
+for i in range(0,len(splited)):
+    if splited[i].lower() in verbs:
+        fund = splited[i+1]
+    elif splited[i] in pronouns:
+        ticker = splited[i+1]
+
+
+CClas.geto(ticker,fund)
+
+
